@@ -1,9 +1,6 @@
 class Solution:
     def fib(self, n: int) -> int:
-        return self.func(n)
+        if n <= 1:
+            return n
 
-    def func(self, num):
-        if num == 0 or num == 1:
-            return num
-
-        return self.func(num - 1) + self.func(num - 2)
+        return self.fib(n - 1) + self.fib(n - 2)
