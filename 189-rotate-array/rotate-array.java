@@ -3,24 +3,14 @@ class Solution {
         int n = nums.length;
         k = k % n;
 
-        int count = 0;
-        int start = 0;
+        int[] temp = new int[n];
 
-        while (count < n) {
-            int idx = start;
-            int curr = nums[idx];
+        for (int i = 0; i < n; i++) {
+            temp[(i + k) % n] = nums[i];
+        }
 
-            do {
-                int next = nums[(idx + k) % n];
-                nums[(idx + k) % n] = curr;
-
-                curr = next;
-                idx = (idx + k) % n;
-                count++;
-
-            } while (idx != start);
-
-            start++;
+        for (int i = 0; i < n; i++) {
+            nums[i] = temp[i];
         }
     }
 }
