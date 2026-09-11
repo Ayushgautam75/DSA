@@ -1,29 +1,25 @@
 class Solution {
-    public int[] twoSum(int[] arr, int x) {
+    public int[] twoSum(int[] nums, int target) {
 
-        int[] ans = new int[2];
-        int n = arr.length;
+        Map<Integer, Integer> map = new HashMap<>();
 
-        for (int i = 0; i < n; i++) {
+        // Store: number -> index
+        for (int i = 0; i < nums.length; i = i + 1) {
+            map.put(nums[i], i);
+        }
 
-            boolean flag = false;
+        // Find complement
+        for (int i = 0; i < nums.length; i = i + 1) {
 
-            for (int j = i + 1; j < n; j++) {
+            int lookupNumber = target - nums[i];
 
-                if (arr[i] + arr[j] == x) {
-                    ans[0] = i;
-                    ans[1] = j;
+            if (map.containsKey(lookupNumber) &&
+                map.get(lookupNumber) != i) {
 
-                    flag = true;
-                    break;
-                }
-            }
-
-            if (flag) {
-                break;
+                return new int[]{i, map.get(lookupNumber)};
             }
         }
 
-        return ans;
+        return new int[]{};
     }
 }
