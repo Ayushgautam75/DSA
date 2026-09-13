@@ -4,61 +4,59 @@ class Solution {
         long sum = 0;
         long max = 0;
 
-        Map<Integer, Integer> map = new HashMap<>();
+        HashMap<Integer, Integer> map = new HashMap<>(k * 2);
 
-        int dups = 0;
+        int distinct = 0;
 
         // First window
         for (int i = 0; i < k; i++) {
 
-            if (!map.containsKey(nums[i])) {
-                map.put(nums[i], 0);
+            int num = nums[i];
+
+            if (!map.containsKey(num)) {
+                map.put(num, 1);
+                distinct++;
+            } else {
+                map.put(num, map.get(num) + 1);
             }
 
-            map.put(nums[i], map.get(nums[i]) + 1);
-
-            sum = sum + nums[i];
-
-            if (map.get(nums[i]) > 1) {
-                dups++;
-            }
+            sum += num;
         }
 
-        // If first window has no duplicate
-        if (dups == 0) {
-            max = Math.max(max, sum);
+        if (distinct == k) {
+            max = sum;
         }
 
         // Sliding window
-        for (int i = k; i < nums.length; i++) {
+        for (int right = k; right < nums.length; right++) {
 
-            int numToAdd = nums[i];
-            int numToRemove = nums[i - k];
+            int add = nums[right];
+            int remove = nums[right - k];
 
-            // Add new number
-            if (!map.containsKey(numToAdd)) {
-                map.put(numToAdd, 0);
+            // Add
+            if (!map.containsKey(add)) {
+                map.put(add, 1);
+                distinct++;
+            } else {
+                map.put(add, map.get(add) + 1);
             }
 
-            map.put(numToAdd, map.get(numToAdd) + 1);
+            sum += add;
 
-            if (map.get(numToAdd) > 1) {
-                dups++;
+            // Remove
+            int count = map.get(remove);
+
+            if (count == 1) {
+                map.remove(remove);
+                distinct--;
+            } else {
+                map.put(remove, count - 1);
             }
 
-            sum = sum + numToAdd;
+            sum -= remove;
 
-            // Remove old number
-            if (map.get(numToRemove) > 1) {
-                dups--;
-            }
-
-            map.put(numToRemove, map.get(numToRemove) - 1);
-
-            sum = sum - numToRemove;
-
-            // Check distinct window
-            if (dups == 0) {
+            // All k elements are distinct
+            if (distinct == k) {
                 max = Math.max(max, sum);
             }
         }
