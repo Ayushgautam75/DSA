@@ -9,8 +9,10 @@ class Solution {
 
         while (j < nums.length) {
 
+            // window mein right element add
             sum = sum + nums[j];
 
+            // target mil gaya, window ko chhota karo
             while (sum >= target) {
 
                 size = Math.min(size, j - i + 1);
@@ -23,6 +25,7 @@ class Solution {
             j = j + 1;
         }
 
+        // agar koi valid subarray nahi mila
         return size == Integer.MAX_VALUE ? 0 : size;
     }
 }
