@@ -1,45 +1,56 @@
-
-import java.util.ArrayList;
-
 class Solution {
     public String[] findWords(String[] words) {
 
-        String row1 = "qwertyuiop";
-        String row2 = "asdfghjkl";
-        String row3 = "zxcvbnm";
+        int[] f = new int[26];
 
-        ArrayList<String> list = new ArrayList<>();
+        String a = "qwertyuiop";
+        String b = "asdfghjkl";
+        String c = "zxcvbnm";
+
+        for (int i = 0; i < a.length(); i++) {
+            f[a.charAt(i) - 'a'] = 1;
+        }
+
+   
+        for (int i = 0; i < b.length(); i++) {
+            f[b.charAt(i) - 'a'] = 2;
+        }
+
+        for (int i = 0; i < c.length(); i++) {
+            f[c.charAt(i) - 'a'] = 3;
+        }
+
+        String[] ans = new String[words.length];
+        int k = 0;
 
         for (String word : words) {
 
-            String s = word.toLowerCase();
+            String ch = word.toLowerCase();
 
-            String row;
-            if (row1.indexOf(s.charAt(0)) != -1) {
-                row = row1;
-            }
-            else if (row2.indexOf(s.charAt(0)) != -1) {
-                row = row2;
-            }
-            else {
-                row = row3;
-            }
+            int row = f[ch.charAt(0) - 'a'];
+            boolean same = true;
 
-            boolean valid = true;
+            for (int i = 1; i < ch.length(); i++) {
 
-            for (int i = 0; i < s.length(); i++) {
-
-                if (row.indexOf(s.charAt(i)) == -1) {
-                    valid = false;
+                if (row != f[ch.charAt(i) - 'a']) {
+                    same = false;
                     break;
                 }
             }
 
-            if (valid) {
-                list.add(word);
+            if (same) {
+                ans[k] = word;
+                k++;
             }
         }
 
-        return list.toArray(new String[0]);
+        // Exact size ka answer array
+        String[] result = new String[k];
+
+        for (int i = 0; i < k; i++) {
+            result[i] = ans[i];
+        }
+
+        return result;
     }
 }
