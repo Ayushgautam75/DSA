@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 class Solution {
     public String[] findWords(String[] words) {
 
@@ -11,7 +13,6 @@ class Solution {
             f[a.charAt(i) - 'a'] = 1;
         }
 
-   
         for (int i = 0; i < b.length(); i++) {
             f[b.charAt(i) - 'a'] = 2;
         }
@@ -44,13 +45,6 @@ class Solution {
             }
         }
 
-        // Exact size ka answer array
-        String[] result = new String[k];
-
-        for (int i = 0; i < k; i++) {
-            result[i] = ans[i];
-        }
-
-        return result;
+        return Arrays.copyOf(ans, k);
     }
 }
